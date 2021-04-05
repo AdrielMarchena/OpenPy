@@ -16,13 +16,6 @@ class Game:
     def OnAttach(self):
         #Load resources and create things here, will be called before the loop start
         #TODO: add all fonts on the folder here
-        self.fonts = {
-            "arial": Text("fonts/arial.ttf"),
-            "arialbd": Text("fonts/arialbd.ttf"),
-            "arialbi": Text("fonts/arialbi.ttf"),
-            "ariali": Text("fonts/ariali.ttf"),
-            "comic_sans": Text("fonts/comic.ttf"),
-        }
         self.fonts = parse_folder("fonts/",".ttf")
         for t in self.fonts:
             self.fonts[t] = Text("fonts/" + str(self.fonts[t]))
