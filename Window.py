@@ -9,7 +9,6 @@ from API import *
 from ctypes import *
 
 from Game import Game
-
 screenSize = vec2(1024,768)
 #used for mouse cursor position things
 actualScreenSize = vec2(1024,768)
@@ -41,6 +40,7 @@ class Window:
 
         MaxTextures = glGetInteger(GL_MAX_TEXTURE_UNITS,value)
         self.render = Render2D(VertexShader(),FragmentShader(MaxTextures),MaxTextures)
+        self.text_render = Render2D(VertexShaderText(),FragmentShaderText(MaxTextures),MaxTextures)
 
         self.game = Game()
         self.game.screenSize = screenSize
@@ -87,6 +87,9 @@ class Window:
         self.render.shader.SetUniMat4("u_ViewProj",identity(mat4)) #Camera projection here
         self.render.shader.SetUniMat4("u_Transform", ortho(0.0,screenSize.x,0.0,screenSize.y,-1.0,1.0))
 
+        self.text_render.shader.SetUniMat4("u_ViewProj",identity(mat4))
+        self.text_render.shader.SetUniMat4("u_Transform", ortho(0.0,screenSize.x,0.0,screenSize.y,-1.0,1.0))
+
         self.game.OnAttach()
         while not glfw.window_should_close(self.window):
 
@@ -116,6 +119,15 @@ class Window:
             #End the Batch and Flush whaever is there
             self.render.EndBatch()
             self.render.Flush()
+
+            #TODO: add the text draw rotine here, need to be here because it use other shader and other batch
+            self.text_render.BindShader()
+            self.text_render.BeginBatch()
+            
+            self.game.DrawT(self.text_render)
+
+            self.text_render.EndBatch()
+            self.text_render.Flush()
 
             #Swap buffers and do the window event stuff
             glfw.swap_buffers(self.window)

@@ -2,3 +2,7 @@
 *.png
 .vscode
 __pycache__
+test.py
+*.TTF
+*.ttf
+*.Ttf

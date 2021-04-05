@@ -223,7 +223,7 @@ class Render2D:
         self.FillVertices(position,size,color,self.TexCoords,textureIndex,rotation,axis)
         self.IndexCount += 6
     
-    def DrawQuadTexture(self,position: vec2,size: vec2,texId: int,rotation=None,axis=None):
+    def DrawQuadTexture(self,position: vec2,size: vec2,texId: int,color=vec4(1),rotation=None,axis=None):
         if self.IndexCount >= self.MaxIndexCount or self.TextureSlotIndex > self.MaxTextures - 1:
             self.EndBatch()
             self.Flush()
@@ -253,5 +253,5 @@ class Render2D:
             self.TextureSlots[self.TextureSlotIndex] = texId
             self.TextureSlotIndex += 1
         
-        self.FillVertices(position,size,vec4(1.0,1.0,1.0,1.0),tx,textureIndex,rotation,axis)
+        self.FillVertices(position,size,color,tx,textureIndex,rotation,axis)
         self.IndexCount += 6

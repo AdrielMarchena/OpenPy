@@ -1,6 +1,7 @@
 from Input import *
 from Render import *
 from glm import *
+from Text import Text
 #Playground here
 
 class Game:
@@ -11,9 +12,14 @@ class Game:
         self.actualScreenSize = vec2()
 
     def OnAttach(self):
-        print("Load resources and create things here, will be called before the loop start")
+        #Load resources and create things here, will be called before the loop start
+        self.fonts = {
+            "arial": Text("fonts/arial.ttf"),
+            "comic_sans": Text("fonts/comic.ttf")
+        }
 
     def Update(self,deltaTime: float):
+        
         print("implement update here")
         #for i in self.entitys:
             #i.Update()
@@ -23,6 +29,10 @@ class Game:
         #for i in self.entitys:
             #i.Draw()
     
+    def DrawT(self,render: Render2D):
+        self.fonts["comic_sans"].Draw(render,"Teste Foda",self.screenSize.x/2,self.screenSize.y/2,1,vec4(1))
+
+
     def Dispose(self):
         print("Dispose things here, will be called after the loop ends")
 
@@ -30,6 +40,7 @@ class Game:
     def MousePosC(self) -> vec2:
         #TODO: improve this, for now, work only on the original resolution
         return vec2( Mouse.pos.x, -( Mouse.pos.y - screenSize.y))
+
 
     #event's
     def on_resize(self,w: int,h: int):
