@@ -51,6 +51,15 @@ class Text:
         #TODO: Delete face
     
     #TODO: add a function that return the total size of a text
+
+    def SizePreviw(self,text: str,scale: float) -> float:
+        x = 1
+        for i in text:
+            ch: Character = self.characters[i]
+            x += (ch.Advance >> 6) * scale
+        return x
+
+
     def Draw(self,render: Render2D,text: str, x: float, y: float, scale: float, color: vec4):
         count = 0
         for i in text:

@@ -9,20 +9,17 @@ from API import *
 from ctypes import *
 
 from Game import Game
-screenSize = vec2(1024,768)
 #used for mouse cursor position things
-actualScreenSize = vec2(1024,768)
 
 class Window:
     def __init__(self,w: int,h: int,title: str):
-        self.w = w
-        self.h = h
         self.title = title
-        self.API = API()
-        screenSize = vec2(w,h)
+        self.screenSize = vec2(w,h)
 
         if not glfw.init():
             return
+        
+        self.API = API()
         
         glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR,3)
         glfw.window_hint(glfw.CONTEXT_VERSION_MINOR,3)
@@ -43,14 +40,20 @@ class Window:
         self.text_render = Render2D(VertexShaderText(),FragmentShaderText(MaxTextures),MaxTextures)
 
         self.game = Game()
-        self.game.screenSize = screenSize
+        self.game.screenSize = self.screenSize
+        self.game.API = self.API
 
         #callback functions
         def resize_callback(window,w,h):
-            ap = w / h
-            actualScreenSize = vec2(w,h)
-            glViewport(w//2 - int(screenSize.x//2) ,h//2 - int(screenSize.y//2),int(screenSize.x),int(screenSize.y))
+            self.screenSize = vec2(w,h)
+            glViewport(w//2 - int(self.screenSize.x//2) ,h//2 - int(self.screenSize.y//2),int(self.screenSize.x),int(self.screenSize.y))
             self.game.on_resize(w,h)
+            
+            self.render.shader.SetUniMat4("u_ViewProj",identity(mat4)) #Camera projection here
+            self.render.shader.SetUniMat4("u_Transform", ortho(0.0,self.screenSize.x,0.0,self.screenSize.y,-1.0,1.0))
+
+            self.text_render.shader.SetUniMat4("u_ViewProj",identity(mat4))
+            self.text_render.shader.SetUniMat4("u_Transform", ortho(0.0,self.screenSize.x,0.0,self.screenSize.y,0.0,1.0))
             
         #TODO: Maybe pass the Mouse and Keyboard to Game, maybe
         def on_mouse_scroll_callback(window,xOffSet,yOffSet):
@@ -58,6 +61,7 @@ class Window:
             self.game.on_mouse_scroll(xOffSet,yOffSet)
 
         def on_cursor_move_callback(window,xpos,ypos):
+            ypos = -(ypos - self.screenSize.y) # adjust to the OpenGL viewport
             Mouse.handleMove(window,xpos,ypos)
             self.game.on_cursor_move(xpos,ypos)
         
@@ -85,19 +89,17 @@ class Window:
         secQuadColor = vec4(0.5,0.5,0.5,1.0)
 
         self.render.shader.SetUniMat4("u_ViewProj",identity(mat4)) #Camera projection here
-        self.render.shader.SetUniMat4("u_Transform", ortho(0.0,screenSize.x,0.0,screenSize.y,-1.0,1.0))
+        self.render.shader.SetUniMat4("u_Transform", ortho(0.0,self.screenSize.x,0.0,self.screenSize.y,-1.0,1.0))
 
         self.text_render.shader.SetUniMat4("u_ViewProj",identity(mat4))
-        self.text_render.shader.SetUniMat4("u_Transform", ortho(0.0,screenSize.x,0.0,screenSize.y,-1.0,1.0))
+        self.text_render.shader.SetUniMat4("u_Transform", ortho(0.0,self.screenSize.x,0.0,self.screenSize.y,0.0,1.0))
 
         self.game.OnAttach()
         while not glfw.window_should_close(self.window):
 
             #Update the window size
-            self.w = actualScreenSize.x
-            self.h = actualScreenSize.y
-            self.game.actualScreenSize = actualScreenSize
-
+            self.game.screenSize = self.screenSize
+            print(self.screenSize)
             #Calculate DeltaTime
             currentTime = glfw.get_time()
             deltaTime = currentTime - lt

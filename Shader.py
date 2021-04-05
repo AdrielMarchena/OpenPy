@@ -38,6 +38,7 @@ class Shader:
         glDeleteShader(FragmentShader)
 
     def SetUniMat4(self, name: str, matrix: mat4):
+        self.Bind()
         glUniformMatrix4fv(self.GetUniformLocation(name),1,False,matrix.to_list())
 
     def Bind(self):
