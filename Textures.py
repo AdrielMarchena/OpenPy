@@ -5,7 +5,7 @@ import numpy
 from PIL import Image
 from glm import *
 class Texture:
-    def __init__(self,path):
+    def __init__(self,path: str):
         
         self.TexID = 0
         self.Wid = 0
@@ -37,7 +37,7 @@ class Texture:
 
 
 class SubTexture:
-    def __init__(self,texID, min, max):
+    def __init__(self,texID: int, min: vec2, max: vec2):
         self.TexID = texID
         self.TexCoords = []
         if texID != 0:
@@ -47,13 +47,10 @@ class SubTexture:
             self.TexCoords[2] = vec2(max.x,max.y)
             self.TexCoords[3] = vec2(min.x,max.y)
     
-    #usage: SubTexture.CreateFromCoords(texID,vec2(128,128),vec2(1,1),vec2(32,32))
-    @staticmethod
-    def CreateFromCoords(texID,size,coords,spriteSize):
-        sheetWid = size.x
-        sheetHei = size.y
-
-        min = vec2( (coords.x * spriteSize.x) / sheetWid, (coords.y * spriteSize.y) / sheetHei)
-        max = vec2( ((coords.x + 1) * spriteSize.x) / sheetWid, ((coords.y + 1) * spriteSize.y) / sheetHei)
-
-        return SubTexture(texID,min,max)
+#usage: SubTexture.CreateFromCoords(texID,vec2(128,128),vec2(1,1),vec2(32,32))
+def CreateSubTexFromCoords(texID,size,coords,spriteSize) -> SubTexture:
+    sheetWid = size.x
+    sheetHei = size.y
+    min = vec2( (coords.x * spriteSize.x) / sheetWid, (coords.y * spriteSize.y) / sheetHei)
+    max = vec2( ((coords.x + 1) * spriteSize.x) / sheetWid, ((coords.y + 1) * spriteSize.y) / sheetHei)
+    return SubTexture(texID,min,max)

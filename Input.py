@@ -7,12 +7,12 @@ class Keyboard:
     
     #Check if the key is press
     @staticmethod
-    def isPress(key):
+    def isPress(key: int) -> bool:
         return Keyboard.pressedKey[key]
     
     #Grab only the first click on this key
     @staticmethod
-    def clicked(key):
+    def clicked(key: int) -> bool:
         if Keyboard.clickedControl[key]:
             return False
         if Keyboard.pressedKey[key]:
@@ -22,7 +22,7 @@ class Keyboard:
     
     #used as callback function on glfw
     @staticmethod
-    def handleClicks(window,key,scancode,action,mods):
+    def handleClicks(window,key: int,scancode,action: int,mods):
         if action == glfw.PRESS:
             Keyboard.pressedKey[key] = True
                 
@@ -42,12 +42,12 @@ class Mouse:
     pressedKey = [False] * 16
     
     @staticmethod
-    def isPress(key):
+    def isPress(key: int) -> bool:
         return Mouse.pressedKey[key]
 
     #Grab only the first click on this key
     @staticmethod
-    def clicked(key):
+    def clicked(key: int) -> bool:
         if Mouse.clickedControl[key]:
             return False
         if Mouse.pressedKey[key]:
@@ -57,7 +57,7 @@ class Mouse:
     
     #used as callback function on glfw
     @staticmethod
-    def handleClicks(window,key,action,mods):
+    def handleClicks(window,key: int,action: int,mods):
         if action == glfw.PRESS:
             Mouse.pressedKey[key] = True
                 
@@ -67,7 +67,7 @@ class Mouse:
     
     #used as callback function on glfw
     @staticmethod
-    def handleMove(window,xpos,ypos):
+    def handleMove(window,xpos: int,ypos: int):
         if Mouse.pos == vec2(xpos,ypos):
             return
         Mouse.prevPos = Mouse.pos
@@ -75,10 +75,8 @@ class Mouse:
     
     #used as callback function on glfw
     @staticmethod
-    def handleScroll(window,xOffSet,yOffSet):
+    def handleScroll(window,xOffSet: int,yOffSet: int):
         if Mouse.offPos == vec2(xOffSet,yOffSet):
             return
         Mouse.prevOffPos = Mouse.offPos
         Mouse.offPos = vec2(xOffSet,yOffSet)
-
-#megachu ep 1 hehe

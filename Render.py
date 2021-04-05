@@ -32,7 +32,7 @@ class Vertex:
         return vert
 
 class Render2D:
-    def __init__(self,vs,fs,MaxText=8):
+    def __init__(self,vs: str,fs: str,MaxText=8):
         self.MaxQuadCount = 2000
         self.MaxVertexCount = self.MaxQuadCount * 4
         self.MaxIndexCount = self.MaxQuadCount * 6
@@ -154,7 +154,7 @@ class Render2D:
         self.IndexCount = 0
         self.TextureSlotIndex = 1
     
-    def FillVertices(self,position,size,color,texCoords,texIndex, rotation=None, axis=None):
+    def FillVertices(self,position: vec2,size: vec2,color: vec4,texCoords: list,texIndex: float, rotation=None, axis=None):
         
         quadVertices = [
             vec3(position.x,position.y,0.0),
@@ -200,7 +200,7 @@ class Render2D:
         self.QuadBuffer.append(h)
         self.QuadBufferPtr += 1
     
-    def RotateVertices(self,vertices,angle,rotationCenter,axis):
+    def RotateVertices(self,vertices: list,angle: float,rotationCenter: vec3,axis: vec3):
         
         translationMatrix = translate(identity(mat4), rotationCenter - (rotationCenter*2))
         rotationMatrix = rotate(identity(mat4),angle,axis)
@@ -211,7 +211,7 @@ class Render2D:
         
         return vertices
     
-    def DrawQuad(self, position, size, color,rotation=None,axis=None):
+    def DrawQuad(self, position: vec2, size: vec2, color: vec4,rotation=None,axis=None):
         
         if self.IndexCount >= self.MaxIndexCount:
             self.EndBatch()
@@ -223,7 +223,7 @@ class Render2D:
         self.FillVertices(position,size,color,self.TexCoords,textureIndex,rotation,axis)
         self.IndexCount += 6
     
-    def DrawQuadTexture(self,position,size,texId,rotation=None,axis=None):
+    def DrawQuadTexture(self,position: vec2,size: vec2,texId: int,rotation=None,axis=None):
         if self.IndexCount >= self.MaxIndexCount or self.TextureSlotIndex > self.MaxTextures - 1:
             self.EndBatch()
             self.Flush()

@@ -4,8 +4,6 @@ import OpenGL
 from OpenGL.GL import *
 from Render import Render2D
 from shaders import *
-from Textures import *
-import random
 from Input import *
 from API import *
 from ctypes import *
@@ -17,7 +15,7 @@ screenSize = vec2(1024,768)
 actualScreenSize = vec2(1024,768)
 
 class Window:
-    def __init__(self,w,h,title):
+    def __init__(self,w: int,h: int,title: str):
         self.w = w
         self.h = h
         self.title = title
@@ -91,11 +89,12 @@ class Window:
 
         self.game.OnAttach()
         while not glfw.window_should_close(self.window):
-            #glClearColor(random.random(),random.random(),random.random(),1.0)
+
             #Update the window size
             self.w = actualScreenSize.x
             self.h = actualScreenSize.y
             self.game.actualScreenSize = actualScreenSize
+
             #Calculate DeltaTime
             currentTime = glfw.get_time()
             deltaTime = currentTime - lt
@@ -109,10 +108,10 @@ class Window:
             self.render.BeginBatch()
 
             #Update Here
-            #self.game.Update(deltaTime)
+            self.game.Update(deltaTime)
 
             #Draw Here
-            #self.game.Draw(self.render)
+            self.game.Draw(self.render)
             
             #End the Batch and Flush whaever is there
             self.render.EndBatch()

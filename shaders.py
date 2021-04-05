@@ -1,4 +1,4 @@
-def VertexShader():
+def VertexShader() -> str:
     return \
 "#version 330 core\n\
 layout(location = 0) in vec3 a_Position;\n\
@@ -21,7 +21,7 @@ void main()\n\
 	gl_Position = u_ViewProj * u_Transform * vec4(a_Position, 1.0);\n\
 }"
 
-def FragmentShader(MaxTexturesSlots=8):
+def FragmentShader(MaxTexturesSlots=8) -> str:
     return \
 "#version 330 core\n\
 #define MAX_TEXTURES_SLOTS "+ str(MaxTexturesSlots) +"\n\
@@ -40,7 +40,7 @@ void main()\n\
     o_Color = texture(u_Textures[index], v_TexCoord) * v_Color;\n\
 }"
 
-def VertexShaderText():
+def VertexShaderText() -> str:
     return \
 "#version 330 core\n\
 layout(location = 0) in vec3 a_Position;\n\
@@ -63,7 +63,7 @@ void main()\n\
 	gl_Position = u_ViewProj * u_Transform * vec4(a_Position.xy,0.0, 1.0);\n\
 }"
 
-def FragmentShaderText(MaxTexturesSlots=8):
+def FragmentShaderText(MaxTexturesSlots=8) -> str:
     return \
 "#version 330 core\n\
 #define MAX_TEXTURES_SLOTS "+ str(MaxTexturesSlots) +"\n\

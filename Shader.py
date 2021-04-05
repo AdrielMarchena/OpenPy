@@ -1,7 +1,7 @@
 from OpenGL.GL import *
-
+from glm import *
 class Shader:
-    def __init__(self,vs,fs):
+    def __init__(self,vs: str,fs: str):
 
         self.ID = 0
         self.UniformLocation = {}
@@ -37,7 +37,7 @@ class Shader:
         glDeleteShader(VertexShader)
         glDeleteShader(FragmentShader)
 
-    def SetUniMat4(self, name, matrix):
+    def SetUniMat4(self, name: str, matrix: mat4):
         glUniformMatrix4fv(self.GetUniformLocation(name),1,False,matrix.to_list())
 
     def Bind(self):
@@ -46,7 +46,7 @@ class Shader:
     def Unbind(self):
         glUseProgram(0)
     
-    def GetUniformLocation(self,name):
+    def GetUniformLocation(self,name: str) -> int:
         try:
             return self.UniformLocation[name]
         except:
