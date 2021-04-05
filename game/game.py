@@ -1,8 +1,8 @@
-from Input import *
-from Render import *
+from game.input import Keyboard, Mouse
+from render.render import Render2D
 from glm import *
-from Text import Text
-from API import API
+from render.text import Text
+from api.api import API
 #Playground here
 
 class Game:
@@ -30,14 +30,14 @@ class Game:
             #i.Update()
 
     def Draw(self,render: Render2D):
-        w = self.fonts["comic_sans"].SizePreviw("Teste Foda",1)
+        w = self.fonts["comic_sans"].SizePreviw("adriel bundao",1)
         if self.API.point_vs_rect(Mouse.pos.x,Mouse.pos.y,self.screenSize.x/2,self.screenSize.y/2,w,50):
             render.DrawQuad(vec2(self.screenSize.x/2,self.screenSize.y/2),vec2(w,45),vec4(1.0))
         #for i in self.entitys:
             #i.Draw()
     
     def DrawT(self,render: Render2D):
-        self.fonts["comic_sans"].Draw(render,"Teste Foda",self.screenSize.x/2,self.screenSize.y/2,1,vec4(0.2,0.6,0.9,1))
+        self.fonts["comic_sans"].Draw(render,"adriel bundao",self.screenSize.x/2,self.screenSize.y/2,1,vec4(0.2,0.6,0.9,1))
 
     def Dispose(self):
         print("Dispose things here, will be called after the loop ends")

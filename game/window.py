@@ -2,13 +2,13 @@ import glfw
 from glm import *
 import OpenGL
 from OpenGL.GL import *
-from Render import Render2D
-from shaders import *
-from Input import *
-from API import *
+from render.render import Render2D
+from render.shaders import *
+from api.api import API
+from game.input import Keyboard, Mouse
 from ctypes import *
 
-from Game import Game
+from game.game import Game
 #used for mouse cursor position things
 
 class Window:
@@ -48,7 +48,7 @@ class Window:
             self.screenSize = vec2(w,h)
             glViewport(w//2 - int(self.screenSize.x//2) ,h//2 - int(self.screenSize.y//2),int(self.screenSize.x),int(self.screenSize.y))
             self.game.on_resize(w,h)
-            
+
             self.render.shader.SetUniMat4("u_ViewProj",identity(mat4)) #Camera projection here
             self.render.shader.SetUniMat4("u_Transform", ortho(0.0,self.screenSize.x,0.0,self.screenSize.y,-1.0,1.0))
 
@@ -99,7 +99,7 @@ class Window:
 
             #Update the window size
             self.game.screenSize = self.screenSize
-            print(self.screenSize)
+
             #Calculate DeltaTime
             currentTime = glfw.get_time()
             deltaTime = currentTime - lt

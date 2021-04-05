@@ -8,9 +8,9 @@ class API:
         arquitecture = struct.calcsize("P") * 8
 
         if arquitecture == 64:
-            self.API = CDLL(str(pathlib.Path().absolute() / "APIx64.dll"))
+            self.API = CDLL(str(pathlib.Path().absolute() / "API\APIx64.dll"))
         if arquitecture == 32:
-            self.API = CDLL(str(pathlib.Path().absolute() / "APIWin32.dll"))
+            self.API = CDLL(str(pathlib.Path().absolute() / "API\APIWin32.dll"))
 
     def cmult(self,x: float,y: float) -> float:
         self.API.cmult.restype = c_float

@@ -5,10 +5,12 @@ import sys
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
-from Shader import Shader
 import numpy
 from PIL import Image
-from Textures import *
+
+from render.shader import Shader
+from render.textures import Texture, SubTexture
+
 sizeOfFloat = ctypes.sizeof(GLfloat)
 sizeOfInt = ctypes.sizeof(GLint)
 

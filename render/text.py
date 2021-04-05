@@ -1,6 +1,6 @@
-from Shader import Shader
-from shaders import *
-from Render import *
+from render.shader import Shader
+from render.shaders import *
+from render.render import *
 from OpenGL.GL import *
 import freetype
 from glm import *
