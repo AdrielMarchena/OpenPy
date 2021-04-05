@@ -3,6 +3,7 @@ from render.render import Render2D
 from glm import *
 from render.text import Text
 from api.api import API
+from utils.parse_folder import parse_folder
 #Playground here
 
 class Game:
@@ -21,8 +22,10 @@ class Game:
             "arialbi": Text("fonts/arialbi.ttf"),
             "ariali": Text("fonts/ariali.ttf"),
             "comic_sans": Text("fonts/comic.ttf"),
-            
         }
+        self.fonts = parse_folder("fonts/",".ttf")
+        for t in self.fonts:
+            self.fonts[t] = Text("fonts/" + str(self.fonts[t]))
 
     def Update(self,deltaTime: float):
         print("implement update here")
@@ -30,14 +33,14 @@ class Game:
             #i.Update()
 
     def Draw(self,render: Render2D):
-        w = self.fonts["comic_sans"].SizePreviw("adriel bundao",1)
+        w = self.fonts["comic"].SizePreviw("adriel bundao",1)
         if self.API.point_vs_rect(Mouse.pos.x,Mouse.pos.y,self.screenSize.x/2,self.screenSize.y/2,w,50):
             render.DrawQuad(vec2(self.screenSize.x/2,self.screenSize.y/2),vec2(w,45),vec4(1.0))
         #for i in self.entitys:
             #i.Draw()
     
     def DrawT(self,render: Render2D):
-        self.fonts["comic_sans"].Draw(render,"adriel bundao",self.screenSize.x/2,self.screenSize.y/2,1,vec4(0.2,0.6,0.9,1))
+        self.fonts["comic"].Draw(render,"adriel bundao",self.screenSize.x/2,self.screenSize.y/2,1,vec4(0.2,0.6,0.9,1))
 
     def Dispose(self):
         print("Dispose things here, will be called after the loop ends")
