@@ -19,7 +19,7 @@ class Window:
         if not glfw.init():
             return
         
-        self.API = API()
+        self.api = API()
         
         glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR,3)
         glfw.window_hint(glfw.CONTEXT_VERSION_MINOR,3)
@@ -41,7 +41,7 @@ class Window:
 
         self.game = Game()
         self.game.screenSize = self.screenSize
-        self.game.API = self.API
+        self.game.api = self.api
 
         #callback functions
         def resize_callback(window,w,h):

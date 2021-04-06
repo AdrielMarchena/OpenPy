@@ -74,3 +74,7 @@ class Text:
             render.DrawQuadTexture(vec2(xpos,ypos + h), vec2(w,-h), ch.TextureID, color)
             x += (ch.Advance >> 6) * scale
             count += 1
+    
+    def Dispose(self):
+        for t in self.characters:
+            glDeleteTextures(1,self.characters[t].TextureID)
